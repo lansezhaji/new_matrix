@@ -65,7 +65,7 @@ $("#envChoice").on('click', 'li', function () {
                 return ;
              };
              for(app in appList){
-                $('.appManage').append('<li ><div class="app" ><span id='+appList[app].id+'&envId'+' onclick="evnClick(id)">' + appList[app].name + '</span></div><div id='+appList[app].appId+'&'+appList[app].name+'  onclick="deleteEnv(id)"    class="handle"><span >删除</span></div></li>')
+                $('.appManage').append('<li ><div class="app" ><span id='+appList[app].id+'&envId'+' onclick="evnClick(id)">' + appList[app].name + '</span></div><div id='+appList[app].id+'&'+appList[app].name+'  onclick="deleteEnv(id)"    class="handle"><span >删除</span></div></li>')
              }
             $("#appPagination").pagination(data.page.totalCount/10, {
                 num_edge_entries: 1, //边缘页数
@@ -97,22 +97,21 @@ var evnClick = function(app){
             "currentPage":"1",
             "pageCount":"10"
         }
-    var data = JSON.stringify(reqDate);
     $.ajax({
         type: "post",
-        data : data,
-        contentType: "application/json;charset=utf-8",
-        url: baseURL + '/manage/getVersion.json',
+        data : reqDate,
+        url: "/api/config/getVersion",
         beforeSend:function(){
             layer.msg('加载中', {icon: 16,shade:0.5}); 
         },
         success: function (data) {
             console.log(data); 
+            layer.closeAll()
             $('.versionsManage').html(''); //清除原来的数据
             $('.versionsManage').append('<li class="th"><div class="app" ><span>版本号</span></div><div class="handle"><span >操作</span></div></li>')
-            var appList =  data.version;
+            var appList =  data.page.result;
             for(app in appList){
-                $('.versionsManage').append('<li><div class="app" ><span>' + appList[app] + '</span></div><div class="handle"  ><span id='+appList[app]+' onclick="deleteApp(id)">删除</span></div></li>')
+                $('.versionsManage').append('<li><div class="app" ><span>' + appList[app].version + '</span></div><div class="handle"  ><span id='+appList[app].version+' onclick="deleteApp(id)">删除</span></div></li>')
             }
             totalVersionCount = data.totalVersionCount;
             $("#versionsPagination").pagination(data.totalVersionCount/10, {
@@ -142,15 +141,14 @@ var deleteEnv = function(app){
             'appId' : appId,
             'userId' : userId
         }
-        var data = JSON.stringify(reqDate);
+
         $.ajax({
             type: "post",
-            data : data,
-            contentType: "application/json;charset=utf-8",
-            url: baseURL + '/manage/microServicesDelete.json',
+            data : reqDate,
+            url: "/api/web/config/deleteApp",
             success: function (data) {
                 console.log(data); 
-                if(data.status == 0)
+                if(data.success == "true")
                 {
                     layer.alert('删除成功',{icon:1});
                 }else{
@@ -180,15 +178,14 @@ var deleteApp = function(id){
             'userId' : userId,
             'version' : id,
         }
-        var data = JSON.stringify(reqDate);
+
         $.ajax({
             type: "post",
-            data : data,
-            contentType: "application/json;charset=utf-8",
-            url: baseURL + '/manage/versionDelete.json',
+            data : reqDate,
+            url: "/api/web/config/deleteVersion",
             success: function (data) {
                 console.log(data); 
-                if(data.status == 0)
+                if(data.success == "true")
                 {
                     layer.alert('删除成功',{icon:1});
                 }else{
@@ -222,7 +219,7 @@ function envPageselectCallback(page_index, jq){
                 "currentPage":page_index,
                 "pageCount":"10"
             }
-            var reqDate =  JSON.stringify(getAppData);
+
             $.ajax({
                 type: "post",
                 data: getAppData,
@@ -246,7 +243,7 @@ function envPageselectCallback(page_index, jq){
                         return ;
                      };
                      for(app in appList){
-                        $('.appManage').append('<li ><div class="app" ><span id='+appList[app].id+'&envId'+' onclick="evnClick(id)">' + appList[app].name + '</span></div><div id='+appList[app].appId+'&'+appList[app].name+'  onclick="deleteEnv(id)"    class="handle"><span >删除</span></div></li>')
+                        $('.appManage').append('<li ><div class="app" ><span id='+appList[app].id+'&envId'+' onclick="evnClick(id)">' + appList[app].name + '</span></div><div id='+appList[app].id+'&'+appList[app].name+'  onclick="deleteEnv(id)"    class="handle"><span >删除</span></div></li>')
                      }
                 },
                 error: function (data) {
@@ -270,19 +267,18 @@ function versionPageselectCallback(page_index,jq){
             "currentPage":page_index,
             "pageCount":"10"
         }
-    var data = JSON.stringify(reqDate);
+
     $.ajax({
         type: "post",
-        data : data,
-        contentType: "application/json;charset=utf-8",
-        url: baseURL + '/manage/getVersion.json',
+        data : reqDate,
+        url: "/api/config/getVersion",
         success: function (data) {
             console.log(data); 
             $('.versionsManage').html(''); //清除原来的数据
             $('.versionsManage').append('<li class="th"><div class="app" ><span>版本号</span></div><div class="handle"><span >操作</span></div></li>')
             var appList =  data.version;
             for(app in appList){
-                $('.versionsManage').append('<li><div class="app" ><span>' + appList[app] + '</span></div><div class="handle"  ><span id='+appList[app]+' onclick="deleteApp(id)">删除</span></div></li>')
+                $('.versionsManage').append('<li><div class="app" ><span>' + appList[app].version + '</span></div><div class="handle"  ><span id='+appList[app].version+' onclick="deleteApp(id)">删除</span></div></li>')
             }
         },
         error: function (data) {
