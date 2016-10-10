@@ -562,7 +562,7 @@ public class ConfigMgrImpl implements ConfigMgr {
     }
 
     /**
-     * 删除配置（map）
+     * 删除配置(version)
      */
     @Override
     public void deleleVersion(Map<String, Object> map) {
