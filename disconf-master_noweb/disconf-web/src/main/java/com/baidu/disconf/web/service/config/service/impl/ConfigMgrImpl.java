@@ -557,7 +557,6 @@ public class ConfigMgrImpl implements ConfigMgr {
         long appId = (Long) map.get("appId");
         long envId =  (Long) map.get("envId");
         configDao.delete(appId, envId);
-
     }
 
     /**
