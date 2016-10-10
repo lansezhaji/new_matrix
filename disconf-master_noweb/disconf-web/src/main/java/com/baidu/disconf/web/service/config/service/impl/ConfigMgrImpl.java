@@ -554,9 +554,8 @@ public class ConfigMgrImpl implements ConfigMgr {
      */
     @Override
     public void delele(Map<String, Object> map) {
-        long appId = Long.parseLong((String) map.get("appId"));
-        long envId = Long.parseLong((String) map.get("envId"));
-
+        long appId = (Long) map.get("appId");
+        long envId =  (Long) map.get("envId");
         configDao.delete(appId, envId);
 
     }
@@ -566,8 +565,8 @@ public class ConfigMgrImpl implements ConfigMgr {
      */
     @Override
     public void deleleVersion(Map<String, Object> map) {
-        long appId = Long.parseLong((String) map.get("appId"));
-        long envId = Long.parseLong((String) map.get("envId"));
+        long appId = (Long) map.get("appId");
+        long envId =  (Long) map.get("envId");
         String version = (String) map.get("version");
         configDao.deleteVersion(appId, envId,version);
 
