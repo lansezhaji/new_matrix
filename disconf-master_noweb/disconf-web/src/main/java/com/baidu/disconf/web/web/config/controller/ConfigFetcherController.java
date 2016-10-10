@@ -85,8 +85,8 @@ public class ConfigFetcherController extends BaseController {
     public JsonObjectBase getVersion(ConfigVersionForm configVersionForm) {
         String app = configVersionForm.getAppId();
         String env = configVersionForm.getEnvId();
-        Long appId = Long.parseLong(app);
-        Long envId = Long.parseLong(env);
+        long appId = Long.parseLong(app);
+        long envId = Long.parseLong(env);
         List<Config> versionList = configMgr.getVersionListByAppEnv(appId, envId,
             configVersionForm.getCurrentPage(), configVersionForm.getPageCount());
         return buildListSuccess(versionList, versionList.size());
