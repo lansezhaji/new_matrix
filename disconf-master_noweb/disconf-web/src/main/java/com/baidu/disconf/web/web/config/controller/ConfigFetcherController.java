@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +84,11 @@ public class ConfigFetcherController extends BaseController {
      */
     @RequestMapping(value = "/getVersion", method = RequestMethod.POST)
     @ResponseBody
-    public JsonObjectBase getVersion(ConfigVersionForm configVersionForm) {
+    public JsonObjectBase getVersion(@Valid ConfigVersionForm configVersionForm) {
         String app = configVersionForm.getAppId();
         String env = configVersionForm.getEnvId();
+        System.out.println(app);
+        System.out.println(env);
         long appId = Long.parseLong(app);
         long envId = Long.parseLong(env);
         List<Config> versionList = configMgr.getVersionListByAppEnv(appId, envId,

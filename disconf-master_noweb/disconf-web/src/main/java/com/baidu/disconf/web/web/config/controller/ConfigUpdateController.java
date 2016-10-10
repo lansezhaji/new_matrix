@@ -193,6 +193,8 @@ public class ConfigUpdateController extends BaseController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("envId", appDeleteForm.getEnvId());
         map.put("appId", appDeleteForm.getAppId());
+        System.out.println(appDeleteForm.getAppId());
+        System.out.println(appDeleteForm.getEnvId());
         configMgr.delele(map);
         return buildSuccess("删除成功");
     }
@@ -209,6 +211,9 @@ public class ConfigUpdateController extends BaseController {
         map.put("envId", confVersionForm.getEnvId());
         map.put("appId", confVersionForm.getAppId());
         map.put("version", confVersionForm.getVersion());
+        System.out.println(confVersionForm.getVersion());
+        System.out.println(confVersionForm.getAppId());
+        System.out.println(confVersionForm.getAppId());
         configMgr.deleleVersion(map);
         return buildSuccess("删除成功");
     }
