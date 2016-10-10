@@ -198,7 +198,7 @@ public class ConfigUpdateController extends BaseController {
     }
 
     /**
-     * delete app
+     * delete version
      * 
      * return 
      */
