@@ -1,33 +1,34 @@
 package com.baidu.disconf.web.service.app.form;
 
 public class AppDeleteForm {
-private String appId;
-    
-    private String userId;
-    
-    private String envId;
+    private Long appId;
 
-    public String getAppId() {
+    private Long userId;
+
+    private Long envId;
+
+    public Long getAppId() {
         return appId;
     }
 
-    public void setAppId(String appId) {
+    public void setAppId(Long appId) {
         this.appId = appId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getEnvId() {
+    public Long getEnvId() {
         return envId;
     }
 
-    public void setEnvId(String envId) {
+    public void setEnvId(Long envId) {
         this.envId = envId;
     }
+
 }
