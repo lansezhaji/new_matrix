@@ -1,11 +1,13 @@
 package com.baidu.disconf.web.service.log.service.impl;
 
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.baidu.disconf.web.common.Constants;
 import com.baidu.disconf.web.service.app.bo.App;
@@ -22,7 +24,7 @@ import com.baidu.disconf.web.service.user.dao.UserDao;
 import com.baidu.disconf.web.utils.redmine.RedmineService;
 import com.baidu.dsp.common.constant.DataFormatConstants;
 import com.github.knightliao.apollo.utils.time.DateUtils;
-
+@Service
 public class AllOperateMgrImpl implements AllOpertaerMgr {
     @Autowired
     private ConfigDao      configDao;
