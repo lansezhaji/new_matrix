@@ -136,8 +136,8 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     public void delete(Long appId, Long envId) {
         String sql = "DELETE FROM config WHERE app_id=? and env_id =?";
         List<String> list = new ArrayList<String>();
-        list.add(appId.toString());
-        list.add(envId.toString());
+        list.add(String.valueOf(appId));
+        list.add(String.valueOf(envId));
         executeSQL(sql, list);
     }
     
@@ -145,8 +145,8 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     public void deleteVersion(Long appId, Long envId,String  version) {
         String sql = "DELETE FROM config WHERE app_id=? and env_id =? and version=?";
         List<String> list = new ArrayList<String>();
-        list.add(appId.toString());
-        list.add(envId.toString());
+        list.add(String.valueOf(appId));
+        list.add(String.valueOf(envId));
         list.add(version);
         executeSQL(sql, list);
     }

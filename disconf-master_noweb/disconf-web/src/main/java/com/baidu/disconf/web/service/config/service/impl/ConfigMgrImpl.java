@@ -554,20 +554,18 @@ public class ConfigMgrImpl implements ConfigMgr {
      */
     @Override
     public void delele(Map<String, Object> map) {
-        Long appId = Long.parseLong((String) map.get("appId"));
-        Long envId = Long.parseLong((String) map.get("envId"));
-
+        long appId = (Long) map.get("appId");
+        long envId =  (Long) map.get("envId");
         configDao.delete(appId, envId);
-
     }
 
     /**
-     * 删除配置（map）
+     * 删除配置（version）
      */
     @Override
     public void deleleVersion(Map<String, Object> map) {
-        Long appId = Long.parseLong((String) map.get("appId"));
-        Long envId = Long.parseLong((String) map.get("envId"));
+        long appId = (Long) map.get("appId");
+        long envId =  (Long) map.get("envId");
         String version = (String) map.get("version");
         configDao.deleteVersion(appId, envId,version);
 
@@ -579,8 +577,8 @@ public class ConfigMgrImpl implements ConfigMgr {
     @Override
     public void nameCopy(NameCopyForm nameCopyForm) {
        String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
-       Long appId = Long.parseLong(nameCopyForm.getAppIdCopySource());
-       Long envId = Long.parseLong(nameCopyForm.getEnvIdCopySource());
+       long appId = Long.parseLong(nameCopyForm.getAppIdCopySource());
+       long envId = Long.parseLong(nameCopyForm.getEnvIdCopySource());
        String version = nameCopyForm.getVersionNameCopySource();
        
        Config configSource =  configDao.getByParameter(appId, envId, version);
