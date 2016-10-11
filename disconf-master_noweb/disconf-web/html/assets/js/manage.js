@@ -36,6 +36,8 @@ $("#envChoice").on('click', 'li', function () {
     $("#envChoice li").removeClass("active");
     $(this).addClass("active");
     $("#appDropdownMenuTitle").text($(this).text());
+
+    $('.versionsManage').html(''); //清除版本号原来的数据
     var getAppData = {
         "envId":envId, 
         "userId":"1" ,
@@ -276,7 +278,7 @@ function versionPageselectCallback(page_index,jq){
             console.log(data); 
             $('.versionsManage').html(''); //清除原来的数据
             $('.versionsManage').append('<li class="th"><div class="app" ><span>版本号</span></div><div class="handle"><span >操作</span></div></li>')
-            var appList =  data.version;
+            var appList =  data.page.result;
             for(app in appList){
                 $('.versionsManage').append('<li><div class="app" ><span>' + appList[app].version + '</span></div><div class="handle"  ><span id='+appList[app].version+' onclick="deleteApp(id)">删除</span></div></li>')
             }
