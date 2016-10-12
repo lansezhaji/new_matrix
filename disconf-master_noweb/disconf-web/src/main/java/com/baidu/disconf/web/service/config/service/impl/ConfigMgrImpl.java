@@ -37,6 +37,7 @@ import com.baidu.disconf.web.service.config.vo.ConfListVo;
 import com.baidu.disconf.web.service.config.vo.MachineListVo;
 import com.baidu.disconf.web.service.env.bo.Env;
 import com.baidu.disconf.web.service.env.service.EnvMgr;
+import com.baidu.disconf.web.service.log.service.AllOpertaerMgr;
 import com.baidu.disconf.web.service.zookeeper.dto.ZkDisconfData;
 import com.baidu.disconf.web.service.zookeeper.dto.ZkDisconfData.ZkDisconfDataItem;
 import com.baidu.disconf.web.service.zookeeper.service.ZkDeployMgr;
@@ -84,6 +85,8 @@ public class ConfigMgrImpl implements ConfigMgr {
 
     @Autowired
     private ConfigHistoryMgr configHistoryMgr;
+    @Autowired
+    private AllOpertaerMgr            allOpertaerMgr;
 
     /**
      * 根据APPid获取其版本列表
@@ -556,7 +559,9 @@ public class ConfigMgrImpl implements ConfigMgr {
     public void delele(Map<String, Object> map) {
         long appId = (Long) map.get("appId");
         long envId =  (Long) map.get("envId");
+        map.put("operation", Constants.Delete);
         configDao.delete(appId, envId);
+        allOpertaerMgr.updateLog(map);
     }
 
     /**
@@ -567,7 +572,9 @@ public class ConfigMgrImpl implements ConfigMgr {
         long appId = (Long) map.get("appId");
         long envId =  (Long) map.get("envId");
         String version = (String) map.get("version");
+        map.put("operation", Constants.Delete);
         configDao.deleteVersion(appId, envId,version);
+        allOpertaerMgr.updateLog(map);
 
     }
 
@@ -576,6 +583,7 @@ public class ConfigMgrImpl implements ConfigMgr {
      */
     @Override
     public void nameCopy(NameCopyForm nameCopyForm) {
+        Map<String, Object> map = new HashMap<String, Object>();
        String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
        long appId = Long.parseLong(nameCopyForm.getAppIdCopySource());
        long envId = Long.parseLong(nameCopyForm.getEnvIdCopySource());
@@ -595,7 +603,16 @@ public class ConfigMgrImpl implements ConfigMgr {
        configTarget.setCreateTime(curTime);
        configTarget.setUpdateTime(curTime);
 
+       map.put("oldAppId", Long.parseLong(nameCopyForm.getAppIdCopySource()));
+       map.put("oldVersion", nameCopyForm.getVersionNameCopySource());
+       map.put("appId", Long.parseLong(nameCopyForm.getAppIdCopyTarget()));
+       map.put("envId", Long.parseLong(nameCopyForm.getEnvIdCopyTarget()));
+       map.put("version", nameCopyForm.getVersionNameTarget());
+       map.put("operation", Constants.Add);
+
+       
        configDao.create(configTarget);
+       allOpertaerMgr.updateLog(map);
        
     }
 
