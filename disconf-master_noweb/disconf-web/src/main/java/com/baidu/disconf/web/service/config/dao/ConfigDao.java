@@ -79,7 +79,8 @@ public interface ConfigDao extends BaseDao<Long, Config> {
      * @param version
      * @return
      */
-    Config getByParameter(Long appId, Long envId, String version);
+    List<Config> getByParameter(Long appId, Long envId, String version);
+    Config getByParameters(Long appId, Long envId, String version);
 
     List<Config> find(List<Object> list);
 

@@ -113,7 +113,7 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
      * @return
      */
     public Config getConfig(long appId, long envId, String version) {
-        return configDao.getByParameter(appId, envId, version);
+        return configDao.getByParameters(appId, envId, version);
     }
 
     /**
