@@ -2,8 +2,10 @@ package com.baidu.disconf.web.service.log.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,7 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
         try {
             Visitor visitor = ThreadContext.getSessionVisitor();
             String updateTime = DateUtils.format(new Date(), DataFormatConstants.STAND_TIME_FORMAT);
-            String desc = "";
+            String description = "";
             long appId = (Long) (map.get("appId") == null ? null : map.get("appId"));
             long envId = (Long) (map.get("envId") == null ? null : map.get("envId"));
             String version = (String) (map.get("version") == null ? null : map.get("version"));
@@ -65,13 +67,19 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                     .get("oldVersion"));
                 App oldApp = getAppById(oldAppId);
 
-                desc = updateTime + " ," + visitor.getLoginUserName() + "从 " + env.getName()
-                       + "环境 " + oldApp.getName() + "微服务" + oldVersion + "版本，复制到了" + env.getName()
-                       + "环境" + app.getName() + "微服务" + version + "版本";
+                description = updateTime + " ," + visitor.getLoginUserName() + "从 " + env.getName()
+                              + "环境 " + oldApp.getName() + "微服务" + oldVersion + "版本，复制到了"
+                              + env.getName() + "环境" + app.getName() + "微服务" + version + "版本";
             } else if (operation.equals(Constants.Delete)) {
-                //deleteInfo(map);
-                desc = updateTime + " ," + visitor.getLoginUserName() + "delete " + env.getName()
-                       + "app:" + app.getName();
+                if (!StringUtils.isBlank(version)) {
+                    //delete version
+                    description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
+                            + env.getName() + "环境中的版本:" + app.getName() + "下的版本：" + version;
+                } else {
+                    //delete app
+                    description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
+                            + env.getName() + "环境中的版本:" + app.getName();
+                }
             } else if (operation.equals(Constants.Update)) {
 
                 //active = "更新";
@@ -82,13 +90,13 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
             log.setEnvId(envId);
             log.setUserId(visitor.getLoginUserId());
             log.setVersion(version);
-            log.setDescription(desc);
+            log.setDescription(description);
             log.setOperation(operation);
             log.setUpdateTime(updateTime);
 
             Log logResult = logHistoryDao.create(log);
             if (logResult != null) {
-                redmineService.send2Redmine(desc);//操作日志更新到redmine
+                redmineService.send2Redmine(description);//操作日志更新到redmine
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -136,5 +144,11 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
 
     public void deleteInfo(Map<String, Object> map) {
 
+    }
+
+    @Override
+    public List<Log> getLogListTop5() {
+        
+        return logHistoryDao.findListBySql();
     }
 }

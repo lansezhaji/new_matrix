@@ -1,6 +1,9 @@
 package com.baidu.disconf.web.service.log.service;
 
+import java.util.List;
 import java.util.Map;
+
+import com.baidu.disconf.web.service.log.bo.Log;
 
 
 /**
@@ -16,5 +19,11 @@ public interface AllOpertaerMgr {
      * @return
      */
     void updateLog(Map<String, Object> map);
+
+    /**
+     * 获得前五条操作日志
+     * @return
+     */
+    List<Log> getLogListTop5();
 
 }

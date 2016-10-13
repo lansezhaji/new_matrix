@@ -14,14 +14,14 @@ public class Constants {
      * 
      * add by GaoJean  on 10/10/2016
      */
-    public final static String  Redmine_URL      = "http://182.92.230.201:3000/issues/6186.json";
+    public final static String  Redmine_URL      = "http://182.92.230.201:3000/issues/6369.json";
     /**
      * 登录redmine的用户key<br>
      * 
      * 
      * add by GaoJean  on 10/10/2016
      */
-    public final static String  Redmine_User_KEY = "1d893519a4674aa4644704c3f8c86003249db597";
+    public final static String  Redmine_User_KEY = "c2a6e7e9bd8e1b3f8cdabe8e64f92c510006efb4";
 
     /**
      * 操作日志  删除

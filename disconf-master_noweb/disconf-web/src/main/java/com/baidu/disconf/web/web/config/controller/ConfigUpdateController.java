@@ -1,6 +1,7 @@
 package com.baidu.disconf.web.web.config.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -21,6 +22,8 @@ import com.baidu.disconf.web.service.app.form.AppDeleteForm;
 import com.baidu.disconf.web.service.config.form.ConfVersionForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
+import com.baidu.disconf.web.service.log.bo.Log;
+import com.baidu.disconf.web.service.log.service.AllOpertaerMgr;
 import com.baidu.disconf.web.web.config.validator.ConfigValidator;
 import com.baidu.disconf.web.web.config.validator.FileUploadValidator;
 import com.baidu.dsp.common.constant.WebConstants;
@@ -42,6 +45,9 @@ public class ConfigUpdateController extends BaseController {
 
     @Autowired
     private ConfigMgr configMgr;
+    
+    @Autowired
+    private AllOpertaerMgr allOpertaerMgr;
 
     @Autowired
     private ConfigValidator configValidator;
@@ -228,6 +234,15 @@ public class ConfigUpdateController extends BaseController {
     public JsonObjectBase copyProperties(@Valid NameCopyForm nameCopyForm) {
         configMgr.nameCopy(nameCopyForm);
         return buildSuccess("复制成功");
+    }
+    
+    @RequestMapping(value = "/getLogsTop5",method = RequestMethod.GET)
+    @ResponseBody
+    public  JsonObjectBase getLogsTop5(){
+        
+        List<Log> logs  = allOpertaerMgr.getLogListTop5();
+        
+        return buildListSuccess(logs,logs.size());
     }
 
 }
