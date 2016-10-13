@@ -2,6 +2,7 @@ package com.baidu.dsp.common.constant;
 
 public class DataFormatConstants {
 
+    public static String STAND_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss";
     // 后端通用的时间格式
     public static String COMMON_TIME_FORMAT = "yyyyMMddHHmmss";
 

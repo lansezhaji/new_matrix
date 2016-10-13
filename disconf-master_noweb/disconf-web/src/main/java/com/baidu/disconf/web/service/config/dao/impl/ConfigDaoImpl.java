@@ -152,12 +152,17 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     }
 
     @Override
-    public Config getByParameter(Long appId, Long envId, String version) {
+    public List<Config> getByParameter(Long appId, Long envId, String version) {
+
+        return find(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
+                new Match(Columns.VERSION, version));
+    }
+    @Override
+    public Config getByParameters(Long appId, Long envId, String version) {
 
         return findOne(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
                 new Match(Columns.VERSION, version));
     }
-
     @Override
     public List<Config> find(List<Object> list) {
         String  sql ="SELECT * from config where app_id=? and env_id =? limit ?,?";
