@@ -96,7 +96,6 @@
 	line-height: 35px;
 }
 .historyDetails{
-	height: 250px;
 	background-color: #f8f8f8;
 }
 .historyDetails li:hover{
@@ -135,4 +134,27 @@
 	width: 386px;
 	text-align: center;
 	display: inline-block;
+}
+
+/* 复制 弹窗样式 */
+.env_content{
+	margin: 30px auto;
+	width: 300px;
+	height: 220px;
+}
+.env_content li{
+	line-height: 40px;
+}
+.env_content li select{
+	margin:auto;
+}
+
+/*
+	操作记录
+ */
+.historyDetails li{
+	line-height: 30px;
+	margin-left: 30px;
+	border-bottom: 1px solid #eee;
+	list-style: square;
 }

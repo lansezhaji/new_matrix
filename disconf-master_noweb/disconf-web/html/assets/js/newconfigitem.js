@@ -41,6 +41,7 @@ $("#item_submit").on("click", function (e) {
                 $("#key").val('');
                 $("#value").val('');
                 $('#selfversion_value').val('');
+                window.location.reload();
                 layer.closeAll();
             },function(){
                 window.location.href = "main.html";

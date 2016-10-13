@@ -102,9 +102,9 @@
                         <span class="createButton">新建+<b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><span  onclick="window.open('/newapp.html');">新建APP</span></li>
-                        <li><span onclick="window.open('/newconfig_item.html');">新建配置项</span></li>
-                        <li><span onclick="window.open('/newconfig_file.html');">新建配置文件</span></li>
+                        <li><span  onclick="window.location.href='/newapp.html'">新建APP</span></li>
+                        <li><span onclick="window.location.href='/newconfig_item.html'">新建配置项</span></li>
+                        <li><span onclick="window.location.href='/newconfig_file.html'">新建配置文件</span></li>
                     </ul>
                 </div>
             </div>
@@ -145,25 +145,60 @@
                               
              </div>
              
-
+        <div ng-app="myApp" ng-controller="namesCtrl">
             <!-- 操作记录 -->
             <div class="container history">
                 <!--  分页插件 -->
                 <div id="appPagination" class="pagination"></div><div id="versionsPagination" class="pagination"></div> 
                 <div class="historyTitle">
                     <strong>操作记录（最近5条）</strong>
+
                 </div>
-                <div class="historyDetails">
-                    <ul >
-                        <li>这里暂时没有纪录</li>
-                    </ul>
-                     
+                <div >
+                    <ul class="historyDetails">
+                        <li ng-repeat="log in logs">
+                            {{log.description}}
+                        </li>
+                    </ul>                    
                     <div class="jump">
-                        <img src="assets/img/jump.jpg" alt="">
-                        <span>跳转至redmine</span>
+                        <img src="assets/img/jump.jpg" alt="" for="gotoRedmine">
+                        <a href="http://idanlu.com:3000/issues/6369" id="gotoRedmine" target="_blank">跳转至redmine</a>
                     </div>
                 </div>
             </div>
+            <!-- 隐藏的复制弹窗 -->
+            <div class="copy" style="display:none">
+               
+                    <ul class="env_content">
+                         <li>
+                            <span>请选择要复制到的位置：</span>
+                        </li>
+                        <li >
+                            <span style="margin-left: 13px;">环境：</span>
+                            <select name="evn_copy" id="evn_copy">
+                                <option ng-repeat="x in items " value="{{x.id}}">
+                                    <span >{{x.name}} 环境 </span>
+                                </option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>微服务：</span>
+                            <select name="app_copy" id="app_copy">
+                                <option ng-repeat="app in apps " value="{{app.id}}">
+                                    <span >{{app.name}} 服务 </span>
+                                </option>
+                            </select>
+                        </li>   
+                        <li>
+                            <span style="margin-left: 60px;">新建版本号：</span>
+                            <br/>
+                            <input type="text" id="version_copy" style="margin-left: 60px">
+                            <span id="copy_error_info" style="margin-left: 60px;color:red;display: none">版本号不能为空</span>
+                        </li>                
+                    </ul>
+                
+            </div>
+        </div>   <!-- angular.js -->
             <!--  -->
             </div>
         </div>

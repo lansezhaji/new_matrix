@@ -40,9 +40,9 @@ $(function(){
                 headShowInit();
                 window.location.href = "/main.html";
             } else {
-                layer.alert('用户名或者密码错误');
-                Util.input.whiteError($("#loginError"), data);
-                $("#loginError").show();
+                layer.msg('用户名或者密码错误');
+                $("#passwdInput").val('');
+                $("#passwdInput").focus();
             }
         });        
     }

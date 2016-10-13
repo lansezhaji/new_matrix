@@ -252,13 +252,14 @@ $("#uploadChoice").on(
                             $("#error").show();
                             $("#error").html(data.result);
                             layer.confirm("是否继续创建?",{btn:['继续创建','返回首页']},function(){
-                $("#fileName").val('');
-                $("#fileContent").val('');
-                $('#selfversion_value').val('');
-                layer.closeAll();
-            },function(){
-                window.location.href = "main.html";
-            })
+                                $("#fileName").val('');
+                                $("#fileContent").val('');
+                                $('#selfversion_value').val('');
+                                window.location.reload();
+                                layer.closeAll();
+                            },function(){
+                                window.location.href = "main.html";
+                            })
                         } else {
                             Util.input.whiteError($("#error"), data);
                         }

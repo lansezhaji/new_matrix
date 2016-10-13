@@ -4,6 +4,9 @@
 	font-family: "Microsoft YaHei" ! important;
 	font-size: 14px;
 }
+.body{
+	background-color: #fbfbfb;
+}
 .container{
 	width: 1000px;
 	margin: 0 auto ;
