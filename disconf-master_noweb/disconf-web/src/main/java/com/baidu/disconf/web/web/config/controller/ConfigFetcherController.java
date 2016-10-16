@@ -28,10 +28,12 @@ import com.baidu.disconf.web.web.config.dto.ConfigFullModel;
 import com.baidu.disconf.web.web.config.validator.ConfigValidator;
 import com.baidu.disconf.web.web.config.validator.ConfigValidator4Fetch;
 import com.baidu.dsp.common.annotation.NoAuth;
+import com.baidu.dsp.common.constant.FrontEndInterfaceConstant;
 import com.baidu.dsp.common.constant.WebConstants;
 import com.baidu.dsp.common.controller.BaseController;
 import com.baidu.dsp.common.exception.DocumentNotFoundException;
 import com.baidu.dsp.common.vo.JsonObjectBase;
+import com.baidu.ub.common.commons.ThreadContext;
 
 /**
  * 配置获取Controller, Disconf-client专门使用的
@@ -87,12 +89,11 @@ public class ConfigFetcherController extends BaseController {
     public JsonObjectBase getVersion(@Valid ConfigVersionForm configVersionForm) {
         String app = configVersionForm.getAppId();
         String env = configVersionForm.getEnvId();
-        System.out.println(configVersionForm.getAppId());
-        System.out.println(configVersionForm.getEnvId());
         Long appId = Long.parseLong(app);
         Long envId = Long.parseLong(env);
         List<Config> versionList = configMgr.getVersionListByAppEnv(appId, envId,
             configVersionForm.getCurrentPage(), configVersionForm.getPageCount());
+       
         return buildListSuccess(versionList, versionList.size());
     }
 

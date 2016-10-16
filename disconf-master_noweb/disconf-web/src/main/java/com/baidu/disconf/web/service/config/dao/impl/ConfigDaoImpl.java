@@ -12,10 +12,12 @@ import com.baidu.disconf.web.service.config.bo.Config;
 import com.baidu.disconf.web.service.config.bo.ConfigEntity;
 import com.baidu.disconf.web.service.config.dao.ConfigDao;
 import com.baidu.dsp.common.constant.DataFormatConstants;
+import com.baidu.dsp.common.constant.FrontEndInterfaceConstant;
 import com.baidu.dsp.common.dao.AbstractDao;
 import com.baidu.dsp.common.dao.Columns;
 import com.baidu.dsp.common.form.RequestListBase.Page;
 import com.baidu.dsp.common.utils.DaoUtils;
+import com.baidu.ub.common.commons.ThreadContext;
 import com.baidu.ub.common.db.DaoPage;
 import com.baidu.ub.common.db.DaoPageResult;
 import com.baidu.unbiz.common.genericdao.operator.Match;
@@ -38,8 +40,9 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
                                  DisConfigTypeEnum disConfigTypeEnum) {
 
         return findOne(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
-                new Match(Columns.VERSION, version), new Match(Columns.TYPE, disConfigTypeEnum.getType()),
-                new Match(Columns.NAME, key), new Match(Columns.STATUS, Constants.STATUS_NORMAL));
+            new Match(Columns.VERSION, version),
+            new Match(Columns.TYPE, disConfigTypeEnum.getType()), new Match(Columns.NAME, key),
+            new Match(Columns.STATUS, Constants.STATUS_NORMAL));
     }
 
     /**
@@ -48,11 +51,12 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     @Override
     public List<Config> getConfByAppEnv(Long appId, Long envId) {
         if (envId == null) {
-            return find(new Match(Columns.APP_ID, appId), new Match(Columns.STATUS, Constants.STATUS_NORMAL));
+            return find(new Match(Columns.APP_ID, appId),
+                new Match(Columns.STATUS, Constants.STATUS_NORMAL));
         } else {
 
             return find(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
-                    new Match(Columns.STATUS, Constants.STATUS_NORMAL));
+                new Match(Columns.STATUS, Constants.STATUS_NORMAL));
 
         }
     }
@@ -91,8 +95,10 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
         if (hasValue) {
             return find(matchs, new ArrayList<Order>());
         } else {
-            return findColumns(matchs, new String[] {Columns.CONFIG_ID, Columns.TYPE, Columns.NAME, Columns.CREATE_TIME
-                    , Columns.UPDATE_TIME, Columns.STATUS, Columns.APP_ID, Columns.ENV_ID, Columns.VERSION});
+            return findColumns(matchs,
+                new String[] { Columns.CONFIG_ID, Columns.TYPE, Columns.NAME, Columns.CREATE_TIME,
+                               Columns.UPDATE_TIME, Columns.STATUS, Columns.APP_ID, Columns.ENV_ID,
+                               Columns.VERSION });
         }
     }
 
@@ -131,7 +137,6 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
         return config.getValue();
     }
 
-    
     @Override
     public void delete(Long appId, Long envId) {
         String sql = "DELETE FROM config WHERE app_id=? and env_id =?";
@@ -140,9 +145,9 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
         list.add(String.valueOf(envId));
         executeSQL(sql, list);
     }
-    
+
     @Override
-    public void deleteVersion(Long appId, Long envId,String  version) {
+    public void deleteVersion(Long appId, Long envId, String version) {
         String sql = "DELETE FROM config WHERE app_id=? and env_id =? and version=?";
         List<String> list = new ArrayList<String>();
         list.add(String.valueOf(appId));
@@ -155,17 +160,32 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     public List<Config> getByParameter(Long appId, Long envId, String version) {
 
         return find(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
-                new Match(Columns.VERSION, version));
+            new Match(Columns.VERSION, version));
     }
+
     @Override
     public Config getByParameters(Long appId, Long envId, String version) {
 
         return findOne(new Match(Columns.APP_ID, appId), new Match(Columns.ENV_ID, envId),
-                new Match(Columns.VERSION, version));
+            new Match(Columns.VERSION, version));
     }
+
     @Override
     public List<Config> find(List<Object> list) {
-        String  sql ="SELECT * from config where app_id=? and env_id =? limit ?,?";
+        String sql = "SELECT * from config where app_id=? and env_id =? limit ?,?";
+        String sqlAll = "SELECT * from config where app_id=? and env_id =?";
+        List<Object> allList = new ArrayList<Object>();
+        allList.add(list.get(0));
+        allList.add(list.get(1));
+        List<Config> configAll = findBySQL(sqlAll, allList);
+        int pageSize = 0;
+        if ((configAll.size() / (Integer) list.get(3)) == 0) {
+            pageSize = configAll.size() / (Integer) list.get(3);
+        } else {
+            pageSize = (configAll.size() / (Integer) list.get(3)) + 1;
+        }
+        ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_SIZE, pageSize);
+        ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_NO, list.get(3));
         return findBySQL(sql, list);
     }
 }

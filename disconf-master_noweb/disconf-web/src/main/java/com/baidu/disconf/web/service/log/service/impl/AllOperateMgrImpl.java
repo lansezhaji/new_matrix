@@ -51,20 +51,27 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
 
         try {
             Visitor visitor = ThreadContext.getSessionVisitor();
+            App app = new App();
+            Env env = new Env();
             String updateTime = DateUtils.format(new Date(), DataFormatConstants.STAND_TIME_FORMAT);
             String description = "";
             long appId = (Long) (map.get("appId") == null ? null : map.get("appId"));
             long envId = (Long) (map.get("envId") == null ? null : map.get("envId"));
             String version = (String) (map.get("version") == null ? null : map.get("version"));
-            String operation = (String) (map.get("operation") == null ? null : map.get("operation"));
+            String operation = (String) (map.get("operation") == null ? null
+                : map.get("operation"));
 
-            App app = getAppById(appId);
-            Env env = getEnv(envId);
+            if (appId != 0) {
+                app = getAppById(appId);
+            }
+            if (envId != 0) {
+                env = getEnv(envId);
+            }
             //Config config = getConfig(appId, envId, version);
             if (operation.equals(Constants.Add)) {//复制
                 long oldAppId = (Long) (map.get("oldAppId") == null ? null : map.get("oldAppId"));
-                String oldVersion = (String) (map.get("oldVersion") == null ? null : map
-                    .get("oldVersion"));
+                String oldVersion = (String) (map.get("oldVersion") == null ? null
+                    : map.get("oldVersion"));
                 App oldApp = getAppById(oldAppId);
 
                 description = updateTime + " ," + visitor.getLoginUserName() + "从 " + env.getName()
@@ -74,11 +81,11 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                 if (!StringUtils.isBlank(version)) {
                     //delete version
                     description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
-                            + env.getName() + "环境中的版本:" + app.getName() + "下的版本：" + version;
+                                  + env.getName() + "环境中的版本:" + app.getName() + "下的版本：" + version;
                 } else {
                     //delete app
                     description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
-                            + env.getName() + "环境中的版本:" + app.getName();
+                                  + env.getName() + "环境中的版本:" + app.getName();
                 }
             } else if (operation.equals(Constants.Update)) {
 
@@ -148,7 +155,7 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
 
     @Override
     public List<Log> getLogListTop5() {
-        
+
         return logHistoryDao.findListBySql();
     }
 }
