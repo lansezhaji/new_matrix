@@ -56,8 +56,8 @@ public class AppDaoImpl extends AbstractDao<Long, App> implements AppDao {
         List<String> listAll = new ArrayList<String>();
         listAll.add(envId);
         List<App> apps = findBySQL(sqlAll, listAll);
-        int pageSize = (apps.size() / endIndex) == 0 ? (apps.size() / endIndex)
-            : (apps.size() / endIndex + 1);
+        int pageSize = (apps.size() % endIndex) == 0 ? (apps.size() / endIndex)
+            : ((apps.size() / endIndex) + 1);
         ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_SIZE, pageSize);
         ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_NO, list.get(2));
         return findBySQL(sql, list2);

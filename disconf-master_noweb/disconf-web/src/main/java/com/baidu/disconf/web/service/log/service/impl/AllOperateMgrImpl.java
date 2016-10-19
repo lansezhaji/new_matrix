@@ -74,18 +74,18 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                     : map.get("oldVersion"));
                 App oldApp = getAppById(oldAppId);
 
-                description = updateTime + " ," + visitor.getLoginUserName() + "从 " + env.getName()
+                description = updateTime + "  ,用户" + visitor.getLoginUserName() + "从 " + env.getName()
                               + "环境 " + oldApp.getName() + "微服务" + oldVersion + "版本，复制到了"
                               + env.getName() + "环境" + app.getName() + "微服务" + version + "版本";
             } else if (operation.equals(Constants.Delete)) {
                 if (!StringUtils.isBlank(version)) {
                     //delete version
-                    description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
-                                  + env.getName() + "环境中的版本:" + app.getName() + "下的版本：" + version;
+                    description = updateTime + "  ,用户" + visitor.getLoginUserName() + "删除了 "
+                                  + env.getName() + "环境中的服务( " + app.getName() + " )下的版本( " + version+" )";
                 } else {
                     //delete app
-                    description = updateTime + " ," + visitor.getLoginUserName() + "删除了 "
-                                  + env.getName() + "环境中的版本:" + app.getName();
+                    description = updateTime + " ,用户" + visitor.getLoginUserName() + "删除了 "
+                                  + env.getName() + "环境中的服务( " + app.getName()+" )";
                 }
             } else if (operation.equals(Constants.Update)) {
 

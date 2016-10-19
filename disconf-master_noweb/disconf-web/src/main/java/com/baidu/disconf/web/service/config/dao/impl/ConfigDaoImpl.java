@@ -172,14 +172,14 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
 
     @Override
     public List<Config> find(List<Object> list) {
-        String sql = "SELECT * from config where app_id=? and env_id =? limit ?,?";
-        String sqlAll = "SELECT * from config where app_id=? and env_id =?";
+        String sql = "SELECT * from config where app_id=? and env_id =? GROUP BY version limit ?,? ";
+        String sqlAll = "SELECT * from config where app_id=? and env_id =? GROUP BY version";
         List<Object> allList = new ArrayList<Object>();
         allList.add(list.get(0));
         allList.add(list.get(1));
         List<Config> configAll = findBySQL(sqlAll, allList);
         int pageSize = 0;
-        if ((configAll.size() / (Integer) list.get(3)) == 0) {
+        if ((configAll.size() % (Integer) list.get(3)) == 0) {
             pageSize = configAll.size() / (Integer) list.get(3);
         } else {
             pageSize = (configAll.size() / (Integer) list.get(3)) + 1;
