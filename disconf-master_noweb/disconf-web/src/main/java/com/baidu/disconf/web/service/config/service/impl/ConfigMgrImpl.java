@@ -434,7 +434,7 @@ public class ConfigMgrImpl implements ConfigMgr {
         //
         // 发送邮件通知
         //
-        String toEmails = appMgr.getEmails(config.getAppId());
+       /* String toEmails = appMgr.getEmails(config.getAppId());
 
         if (applicationPropertyConfig.isEmailMonitorOn()) {
             boolean isSendSuccess = logMailBean.sendHtmlEmail(toEmails, " config update",
@@ -445,7 +445,7 @@ public class ConfigMgrImpl implements ConfigMgr {
             } else {
                 return "修改成功，邮件发送失败，请检查邮箱配置";
             }
-        }
+        }*/
 
         return "修改成功";
     }
@@ -537,11 +537,11 @@ public class ConfigMgrImpl implements ConfigMgr {
 
         // 发送邮件通知
         //
-        String toEmails = appMgr.getEmails(config.getAppId());
+      /*  String toEmails = appMgr.getEmails(config.getAppId());
         if (applicationPropertyConfig.isEmailMonitorOn() == true) {
             logMailBean.sendHtmlEmail(toEmails, " config new",
                 getNewValue(confNewForm.getValue(), config.toString(), getConfigUrlHtml(config)));
-        }
+        }*/
     }
 
     /**

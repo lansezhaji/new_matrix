@@ -98,7 +98,7 @@ public class AppMgrImpl implements AppMgr {
         App app = new App();
         app.setName(appNew.getApp());
         app.setDesc(appNew.getDesc());
-        app.setEmails(appNew.getEmails());
+        app.setEmails("");
 
         String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
         app.setCreateTime(curTime);
