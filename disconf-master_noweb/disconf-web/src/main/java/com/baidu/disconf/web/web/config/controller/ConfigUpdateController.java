@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.baidu.disconf.web.service.app.form.AppDeleteForm;
 import com.baidu.disconf.web.service.config.form.ConfVersionForm;
+import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
 import com.baidu.disconf.web.service.log.bo.Log;
@@ -199,8 +200,6 @@ public class ConfigUpdateController extends BaseController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("envId", appDeleteForm.getEnvId());
         map.put("appId", appDeleteForm.getAppId());
-        System.out.println(appDeleteForm.getEnvId());
-        System.out.println(appDeleteForm.getAppId());
         configMgr.delele(map);
         return buildSuccess("删除成功");
     }
@@ -233,6 +232,18 @@ public class ConfigUpdateController extends BaseController {
     @ResponseBody
     public JsonObjectBase copyProperties(@Valid NameCopyForm nameCopyForm) {
         configMgr.nameCopy(nameCopyForm);
+        return buildSuccess("复制成功");
+    }
+    
+    /**
+     * copyAllProperties
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/copyAllProperties", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonObjectBase copyAllProperties(@Valid NameAllCopyForm nameCopyForm) {
+        configMgr.nameAllCopy(nameCopyForm);
         return buildSuccess("复制成功");
     }
     

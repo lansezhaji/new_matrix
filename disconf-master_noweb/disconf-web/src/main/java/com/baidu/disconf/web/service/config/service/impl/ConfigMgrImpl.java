@@ -30,6 +30,7 @@ import com.baidu.disconf.web.service.config.bo.ConfigEntity;
 import com.baidu.disconf.web.service.config.dao.ConfigDao;
 import com.baidu.disconf.web.service.config.form.ConfListForm;
 import com.baidu.disconf.web.service.config.form.ConfNewItemForm;
+import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigHistoryMgr;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
@@ -565,7 +566,7 @@ public class ConfigMgrImpl implements ConfigMgr {
     public void delele(Map<String, Object> map) {
         long appId = (Long) map.get("appId");
         long envId = (Long) map.get("envId");
-        map.put("operation", Constants.Delete);
+        map.put("operation", Constants.DELETE);
         configDao.delete(appId, envId);
         allOpertaerMgr.updateLog(map);
     }
@@ -578,7 +579,7 @@ public class ConfigMgrImpl implements ConfigMgr {
         long appId = (Long) map.get("appId");
         long envId = (Long) map.get("envId");
         String version = (String) map.get("version");
-        map.put("operation", Constants.Delete);
+        map.put("operation", Constants.DELETE);
         configDao.deleteVersion(appId, envId, version);
         allOpertaerMgr.updateLog(map);
 
@@ -616,7 +617,42 @@ public class ConfigMgrImpl implements ConfigMgr {
         map.put("appId", Long.parseLong(nameCopyForm.getAppIdCopyTarget()));
         map.put("envId", Long.parseLong(nameCopyForm.getEnvIdCopyTarget()));
         map.put("version", nameCopyForm.getVersionNameTarget());
-        map.put("operation", Constants.Add);
+        map.put("operation", Constants.ADD);
+
+        allOpertaerMgr.updateLog(map);
+
+    }
+    
+    /**
+     * 复制某环境所有微服务
+     */
+    @Override
+    public void nameAllCopy(NameAllCopyForm nameAllCopyForm) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
+        long envId = Long.parseLong(nameAllCopyForm.getEnvIdCopySource());
+        String version = nameAllCopyForm.getVersionNameCopySource();
+        
+        List<Config> configSource = configDao.getByParameter(envId, version);
+        for (Config config : configSource) {
+            Config configTarget = new Config();
+            configTarget.setAppId(config.getAppId());
+            configTarget.setEnvId(Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
+            configTarget.setVersion(nameAllCopyForm.getVersionNameTarget());
+            configTarget.setName(config.getName());
+            configTarget.setStatus(config.getStatus());
+            configTarget.setType(config.getType());
+            configTarget.setValue(config.getValue());
+            // 时间
+            configTarget.setCreateTime(curTime);
+            configTarget.setUpdateTime(curTime);
+            configDao.create(configTarget);
+        }
+
+        map.put("oldVersion", nameAllCopyForm.getVersionNameCopySource());
+        map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
+        map.put("version", nameAllCopyForm.getVersionNameTarget());
+        map.put("operation", Constants.ADD_ALL);
 
         allOpertaerMgr.updateLog(map);
 

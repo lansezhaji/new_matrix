@@ -8,6 +8,7 @@ import com.baidu.disconf.core.common.constants.DisConfigTypeEnum;
 import com.baidu.disconf.web.service.config.bo.Config;
 import com.baidu.disconf.web.service.config.form.ConfListForm;
 import com.baidu.disconf.web.service.config.form.ConfNewItemForm;
+import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.vo.ConfListVo;
 import com.baidu.disconf.web.service.config.vo.MachineListVo;
@@ -94,6 +95,7 @@ public interface ConfigMgr {
 
     
     void nameCopy(NameCopyForm nameCopyForm);
+    void nameAllCopy(NameAllCopyForm nameCopyForm);
 
     List<Config> getVersionListByAppEnv(Long appId, Long envId, String currentPage, String pageCount);
 

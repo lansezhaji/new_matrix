@@ -34,7 +34,7 @@ public class RedmineService {
         issue.setNotes(desc);
         jo.put("issue", issue);
 
-        String url = Constants.Redmine_URL + "?key=" + Constants.Redmine_User_KEY;
+        String url = Constants.REDMINE_URL + "?key=" + Constants.REDMINE_USER_KEY;
         HttpClient client = HttpClientBuilder.create().build();
         HttpPut put = new HttpPut(url);
         put.setHeader("Content-type", "application/json;charset=utf-8");

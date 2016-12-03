@@ -68,16 +68,16 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                 env = getEnv(envId);
             }
             //Config config = getConfig(appId, envId, version);
-            if (operation.equals(Constants.Add)) {//复制
+            if (operation.equals(Constants.ADD)) {//复制单个微服务
                 long oldAppId = (Long) (map.get("oldAppId") == null ? null : map.get("oldAppId"));
                 String oldVersion = (String) (map.get("oldVersion") == null ? null
                     : map.get("oldVersion"));
                 App oldApp = getAppById(oldAppId);
 
                 description = updateTime + "  ,用户" + visitor.getLoginUserName() + "从 " + env.getName()
-                              + "环境 " + oldApp.getName() + "微服务" + oldVersion + "版本，复制到了"
+                              + "环境 " + oldApp.getName() + " 微服务" + oldVersion + "版本，复制到了"
                               + env.getName() + "环境" + app.getName() + "微服务" + version + "版本";
-            } else if (operation.equals(Constants.Delete)) {
+            } else if (operation.equals(Constants.DELETE)) {
                 if (!StringUtils.isBlank(version)) {
                     //delete version
                     description = updateTime + "  ,用户" + visitor.getLoginUserName() + "删除了 "
@@ -87,9 +87,12 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                     description = updateTime + " ,用户" + visitor.getLoginUserName() + "删除了 "
                                   + env.getName() + "环境中的服务( " + app.getName()+" )";
                 }
-            } else if (operation.equals(Constants.Update)) {
+            } else if (operation.equals(Constants.UPDATE)) {
 
                 //active = "更新";
+            }else if (operation.equals(Constants.ADD_ALL)) {//复制所有的微服务
+                description = updateTime + " ,用户"+visitor.getLoginUserName() + "从 " +env.getName() + " 环境 " ;
+                
             }
 
             Log log = new Log();
