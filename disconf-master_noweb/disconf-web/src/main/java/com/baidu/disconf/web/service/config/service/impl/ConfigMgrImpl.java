@@ -631,31 +631,46 @@ public class ConfigMgrImpl implements ConfigMgr {
         Map<String, Object> map = new HashMap<String, Object>();
         String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
         long envId = Long.parseLong(nameAllCopyForm.getEnvIdCopySource());
-        String version = nameAllCopyForm.getVersionNameCopySource();
         
-        List<Config> configSource = configDao.getByParameter(envId, version);
+        List<Config> configSource = configDao.getByParameter(envId);
         for (Config config : configSource) {
             Config configTarget = new Config();
-            configTarget.setAppId(config.getAppId());
-            configTarget.setEnvId(Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
-            configTarget.setVersion(nameAllCopyForm.getVersionNameTarget());
+            if(find(envId,config.getAppId(),nameAllCopyForm.getVersionNameTarget())){
+                configTarget.setVersion(config.getVersion());//设置为已存在的版本号
+            }else {
+                configTarget.setVersion(nameAllCopyForm.getVersionNameTarget());//设置为新建的版本号
+            }
             configTarget.setName(config.getName());
             configTarget.setStatus(config.getStatus());
             configTarget.setType(config.getType());
             configTarget.setValue(config.getValue());
+            configTarget.setEnvId(Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
+            configTarget.setAppId(config.getAppId());
             // 时间
             configTarget.setCreateTime(curTime);
             configTarget.setUpdateTime(curTime);
             configDao.create(configTarget);
-        }
+        } 
 
-        map.put("oldVersion", nameAllCopyForm.getVersionNameCopySource());
-        map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
+        map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopySource()));
+        map.put("envIdTarget", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
         map.put("version", nameAllCopyForm.getVersionNameTarget());
         map.put("operation", Constants.ADD_ALL);
 
         allOpertaerMgr.updateLog(map);
 
+    }
+
+    /**
+     * 判断envId /appId/ vsersion 联合查询在数据库是否存在
+     */
+    private boolean find(long envId, Long appId,String version) {
+        List<Config> configList = null;
+        configList = configDao.getByParameter(appId, envId, version);
+        if(configList != null && configList.size() != 0){
+            return true;
+        }
+        return false;
     }
 
     @Override

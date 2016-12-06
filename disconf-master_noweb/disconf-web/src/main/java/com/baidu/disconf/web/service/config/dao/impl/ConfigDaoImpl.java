@@ -157,9 +157,8 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     }
 
     @Override
-    public List<Config> getByParameter(Long envId, String version) {
-        return find(new Match(Columns.ENV_ID, envId),
-            new Match(Columns.VERSION, version));
+    public List<Config> getByParameter(Long envId) {
+        return find(new Match(Columns.ENV_ID, envId));
     }
 
     @Override

@@ -2,21 +2,11 @@ package com.baidu.disconf.web.service.config.form;
 
 public class NameAllCopyForm {
 
-    private String versionNameCopySource;
-
     private String envIdCopySource;
 
     private String versionNameTarget;
 
     private String envIdCopyTarget;
-
-    public String getVersionNameCopySource() {
-        return versionNameCopySource;
-    }
-
-    public void setVersionNameCopySource(String versionNameCopySource) {
-        this.versionNameCopySource = versionNameCopySource;
-    }
 
     public String getEnvIdCopySource() {
         return envIdCopySource;

@@ -90,9 +90,10 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
             } else if (operation.equals(Constants.UPDATE)) {
 
                 //active = "更新";
-            }else if (operation.equals(Constants.ADD_ALL)) {//复制所有的微服务
-                description = updateTime + " ,用户"+visitor.getLoginUserName() + "从 " +env.getName() + " 环境 " ;
-                
+            }else if (operation.equals(Constants.ADD_ALL)) {//复制所有微服务的配置文件
+                long envIdTarget = (Long) (map.get("envIdTarget"));
+                description = updateTime + " ,用户" + visitor.getLoginUserName() + "复制了 "
+                              + env.getName() + " 环境到 " + envIdTarget + "环境";
             }
 
             Log log = new Log();
