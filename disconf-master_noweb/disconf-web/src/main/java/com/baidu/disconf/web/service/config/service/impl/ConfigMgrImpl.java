@@ -635,8 +635,8 @@ public class ConfigMgrImpl implements ConfigMgr {
         List<Config> configSource = configDao.getByParameter(envId);
         for (Config config : configSource) {
             Config configTarget = new Config();
-            if(!find(envId,config.getAppId(),nameAllCopyForm.getVersionNameTarget())){//在target环境中，不存在该微服务的版本号
-                configTarget.setVersion(nameAllCopyForm.getVersionNameTarget());//设置为新建的版本号
+            if(!find(envId,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号
+                configTarget.setVersion(config.getVersion());//设置为新建的版本号
                 configTarget.setName(config.getName());
                 configTarget.setStatus(config.getStatus());
                 configTarget.setType(config.getType());
@@ -652,7 +652,6 @@ public class ConfigMgrImpl implements ConfigMgr {
 
         map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopySource()));
         map.put("envIdTarget", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
-        map.put("version", nameAllCopyForm.getVersionNameTarget());
         map.put("operation", Constants.ADD_ALL);
 
         allOpertaerMgr.updateLog(map);

@@ -4,8 +4,6 @@ public class NameAllCopyForm {
 
     private String envIdCopySource;
 
-    private String versionNameTarget;
-
     private String envIdCopyTarget;
 
     public String getEnvIdCopySource() {
@@ -14,14 +12,6 @@ public class NameAllCopyForm {
 
     public void setEnvIdCopySource(String envIdCopySource) {
         this.envIdCopySource = envIdCopySource;
-    }
-
-    public String getVersionNameTarget() {
-        return versionNameTarget;
-    }
-
-    public void setVersionNameTarget(String versionNameTarget) {
-        this.versionNameTarget = versionNameTarget;
     }
 
     public String getEnvIdCopyTarget() {
