@@ -612,6 +612,7 @@ public class ConfigMgrImpl implements ConfigMgr {
             configDao.create(configTarget);
         }
 
+        map.put("oldEnvId", Long.parseLong(nameCopyForm.getEnvIdCopySource()));
         map.put("oldAppId", Long.parseLong(nameCopyForm.getAppIdCopySource()));
         map.put("oldVersion", nameCopyForm.getVersionNameCopySource());
         map.put("appId", Long.parseLong(nameCopyForm.getAppIdCopyTarget()));
@@ -635,13 +636,14 @@ public class ConfigMgrImpl implements ConfigMgr {
         List<Config> configSource = configDao.getByParameter(envId);
         for (Config config : configSource) {
             Config configTarget = new Config();
-            if(!find(envId,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号
+            long envIdTarget = Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget());
+            if(!find(envIdTarget,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号
                 configTarget.setVersion(config.getVersion());//设置为新建的版本号
                 configTarget.setName(config.getName());
                 configTarget.setStatus(config.getStatus());
                 configTarget.setType(config.getType());
                 configTarget.setValue(config.getValue());
-                configTarget.setEnvId(Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
+                configTarget.setEnvId(envIdTarget);
                 configTarget.setAppId(config.getAppId());
                 // 时间
                 configTarget.setUpdateTime(curTime);

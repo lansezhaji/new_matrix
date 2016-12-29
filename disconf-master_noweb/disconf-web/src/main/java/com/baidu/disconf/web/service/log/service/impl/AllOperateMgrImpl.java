@@ -73,10 +73,12 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                 String oldVersion = (String) (map.get("oldVersion") == null ? null
                     : map.get("oldVersion"));
                 App oldApp = getAppById(oldAppId);
-
-                description = updateTime + "  ,用户" + visitor.getLoginUserName() + "从 " + env.getName()
-                              + "环境 " + oldApp.getName() + " 微服务" + oldVersion + "版本，复制到了"
-                              + env.getName() + "环境" + app.getName() + "微服务" + version + "版本";
+                Env oldEnv = getEnv((Long) (map.get("oldEnvId") == null ? null : map.get("oldEnvId")));
+                
+                description = updateTime + "  ,用户" + visitor.getLoginUserName() + "从 "
+                              + oldEnv.getName() + "环境 " + oldApp.getName() + " 微服务" + oldVersion
+                              + "版本，复制到了" + env.getName() + "环境" + app.getName() + "微服务" + version
+                              + "版本";
             } else if (operation.equals(Constants.DELETE)) {
                 if (!StringUtils.isBlank(version)) {
                     //delete version
@@ -92,8 +94,9 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                 //active = "更新";
             }else if (operation.equals(Constants.ADD_ALL)) {//复制所有微服务的配置文件
                 long envIdTarget = (Long) (map.get("envIdTarget"));
+                Env envTarget = getEnv(envIdTarget);
                 description = updateTime + " ,用户" + visitor.getLoginUserName() + "复制了 "
-                              + env.getName() + " 环境到 " + envIdTarget + "环境";
+                              + env.getName() + " 环境到 " + envTarget.getName() + "环境";
             }
 
             Log log = new Log();
