@@ -161,7 +161,7 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
     }
 
     @Override
-    public List<Log> getLogListTop5() {
+    public List<Log> getLogHistory() {
 
         return logHistoryDao.findListBySql();
     }

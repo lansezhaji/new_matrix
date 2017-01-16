@@ -24,6 +24,6 @@ public interface AllOpertaerMgr {
      * 获得前五条操作日志
      * @return
      */
-    List<Log> getLogListTop5();
+    List<Log> getLogHistory();
 
 }

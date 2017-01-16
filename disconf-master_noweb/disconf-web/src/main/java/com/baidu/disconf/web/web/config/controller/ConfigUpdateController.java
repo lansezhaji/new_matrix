@@ -247,11 +247,15 @@ public class ConfigUpdateController extends BaseController {
         return buildSuccess("复制成功");
     }
     
+    /**
+     * get  recently  LogHistory
+     * @return
+     */
     @RequestMapping(value = "/getLogsTop5",method = RequestMethod.GET)
     @ResponseBody
-    public  JsonObjectBase getLogsTop5(){
+    public  JsonObjectBase getLogHistory(){
         
-        List<Log> logs  = allOpertaerMgr.getLogListTop5();
+        List<Log> logs  = allOpertaerMgr.getLogHistory();
         
         return buildListSuccess(logs,logs.size());
     }
