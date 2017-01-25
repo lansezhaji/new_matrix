@@ -35,7 +35,7 @@ public class UserCreateTools {
         /**
          * 生成指定用户 SQL
          */
-        UserCreateCommon.generateCreateSpecifyUserSQL(userDao, "msoa", "msoaSH", RoleEnum.ADMIN, "");
+        UserCreateCommon.generateCreateSpecifyUserSQL(userDao, "Danlu", "admin", RoleEnum.ADMIN, "");
 
         System.exit(1);
     }

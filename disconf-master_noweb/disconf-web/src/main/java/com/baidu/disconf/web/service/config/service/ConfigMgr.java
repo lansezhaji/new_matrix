@@ -93,6 +93,7 @@ public interface ConfigMgr {
      */
     void deleleVersion(Map<String, Object> map);
 
+    void deleteConfig(Map<String, Object> map);
     
     void nameCopy(NameCopyForm nameCopyForm);
     void nameAllCopy(NameAllCopyForm nameCopyForm);

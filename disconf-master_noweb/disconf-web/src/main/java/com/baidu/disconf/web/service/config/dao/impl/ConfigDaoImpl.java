@@ -157,6 +157,15 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     }
 
     @Override
+    public void deleteConfig(Long envId, String version) {
+        String sql = "DELETE FROM config WHERE env_id =? and version=?";
+        List<String> list = new ArrayList<String>();
+        list.add(String.valueOf(envId));
+        list.add(version);
+        executeSQL(sql, list);
+    }
+    
+    @Override
     public List<Config> getByParameter(Long envId) {
         return find(new Match(Columns.ENV_ID, envId));
     }

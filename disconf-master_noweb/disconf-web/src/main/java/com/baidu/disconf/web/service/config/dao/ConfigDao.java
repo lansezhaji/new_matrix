@@ -71,7 +71,7 @@ public interface ConfigDao extends BaseDao<Long, Config> {
 
     void delete(Long appId, Long envId);
     void deleteVersion(Long appId, Long envId,String version);
-    
+    void deleteConfig(Long envId,String version);
     /**
      * 
      * @param appId

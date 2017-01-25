@@ -582,9 +582,22 @@ public class ConfigMgrImpl implements ConfigMgr {
         map.put("operation", Constants.DELETE);
         configDao.deleteVersion(appId, envId, version);
         allOpertaerMgr.updateLog(map);
-
     }
 
+    /**
+     * 删除配置文件（versionList）
+     */
+    @Override
+    public void deleteConfig(Map<String, Object> map) {
+        long envId = (Long) map.get("envId");
+        List<String> versionList = new ArrayList<String>();
+        versionList = (List<String>) map.get("versionList");
+        for (String version : versionList) {
+            map.put("operation", Constants.DELETE);
+            configDao.deleteConfig(envId, version);
+            allOpertaerMgr.updateLog(map);
+        }
+    }
     /**
      * 复制文件
      */
@@ -635,9 +648,9 @@ public class ConfigMgrImpl implements ConfigMgr {
         
         List<Config> configSource = configDao.getByParameter(envId);
         for (Config config : configSource) {
-            Config configTarget = new Config();
             long envIdTarget = Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget());
             if(!find(envIdTarget,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号
+                Config configTarget = new Config();
                 configTarget.setVersion(config.getVersion());//设置为新建的版本号
                 configTarget.setName(config.getName());
                 configTarget.setStatus(config.getStatus());

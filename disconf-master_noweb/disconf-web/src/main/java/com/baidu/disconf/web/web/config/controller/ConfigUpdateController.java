@@ -1,5 +1,6 @@
 package com.baidu.disconf.web.web.config.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.baidu.disconf.web.service.app.form.AppDeleteForm;
 import com.baidu.disconf.web.service.config.form.ConfVersionForm;
+import com.baidu.disconf.web.service.config.form.ConfVersoinListForm;
 import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
@@ -216,13 +218,24 @@ public class ConfigUpdateController extends BaseController {
         map.put("envId", confVersionForm.getEnvId());
         map.put("appId", confVersionForm.getAppId());
         map.put("version", confVersionForm.getVersion());
-        System.out.println(confVersionForm.getAppId());
-        System.out.println(confVersionForm.getEnvId());
-        System.out.println(confVersionForm.getVersion());
         configMgr.deleleVersion(map);
         return buildSuccess("删除成功");
     }
 
+    /**
+     * delete config by versionList
+     * @param confVersionForm
+     * @return
+     */
+    @RequestMapping(value = "/deleteConfig", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonObjectBase deleteConfig(@Valid ConfVersoinListForm confVersionForm){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("envId", confVersionForm.getEnvId());
+        map.put("versionList", confVersionForm.getVersionList());
+        configMgr.deleteConfig(map);
+        return buildSuccess("删除成功");
+    }
     /**
      * copyProperties
      * 
