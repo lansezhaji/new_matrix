@@ -638,15 +638,17 @@ public class ConfigMgrImpl implements ConfigMgr {
     }
     
     /**
-     * 复制某环境所有微服务
+     * 复制某环境某版本下的所有微服务配置文件
      */
     @Override
     public void nameAllCopy(NameAllCopyForm nameAllCopyForm) {
         Map<String, Object> map = new HashMap<String, Object>();
         String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
         long envId = Long.parseLong(nameAllCopyForm.getEnvIdCopySource());
+        String versionSource = nameAllCopyForm.getVersionCopySource();
+        String versionTarget = nameAllCopyForm.getVersionCopyTarget();
+        List<Config> configSource = configDao.getByParameter(envId,versionSource);
         
-        List<Config> configSource = configDao.getByParameter(envId);
         for (Config config : configSource) {
             long envIdTarget = Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget());
             if(!find(envIdTarget,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号

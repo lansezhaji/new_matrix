@@ -169,7 +169,12 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
     public List<Config> getByParameter(Long envId) {
         return find(new Match(Columns.ENV_ID, envId));
     }
-
+    
+    @Override
+    public List<Config> getByParameter(Long envId, String version) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     @Override
     public List<Config> getByParameter(Long appId, Long envId, String version) {
 
@@ -202,4 +207,6 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
         ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_NO, list.get(3));
         return findBySQL(sql, list);
     }
+
+    
 }

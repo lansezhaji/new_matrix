@@ -80,7 +80,8 @@ public interface ConfigDao extends BaseDao<Long, Config> {
      * @return
      */
     List<Config> getByParameter(Long appId, Long envId, String version);
-    List<Config> getByParameter( Long envId);
+    List<Config> getByParameter(Long envId, String version);
+    List<Config> getByParameter(Long envId);
     Config getByParameters(Long appId, Long envId, String version);
 
    /**
