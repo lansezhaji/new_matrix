@@ -647,26 +647,26 @@ public class ConfigMgrImpl implements ConfigMgr {
         long envId = Long.parseLong(nameAllCopyForm.getEnvIdCopySource());
         String versionSource = nameAllCopyForm.getVersionCopySource();
         String versionTarget = nameAllCopyForm.getVersionCopyTarget();
+        long envIdTarget = Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget());
         List<Config> configSource = configDao.getByParameter(envId,versionSource);
-        
-        for (Config config : configSource) {
-            long envIdTarget = Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget());
-            if(!find(envIdTarget,config.getAppId(),config.getVersion())){//在target环境中，不存在该微服务的版本号
-                Config configTarget = new Config();
-                configTarget.setVersion(config.getVersion());//设置为新建的版本号
-                configTarget.setName(config.getName());
-                configTarget.setStatus(config.getStatus());
-                configTarget.setType(config.getType());
-                configTarget.setValue(config.getValue());
-                configTarget.setEnvId(envIdTarget);
-                configTarget.setAppId(config.getAppId());
-                // 时间
-                configTarget.setUpdateTime(curTime);
-                configTarget.setCreateTime(curTime);
-                configDao.create(configTarget);
-            }
-        } 
 
+        for (Config config : configSource) {
+            //在target环境中，不存在该微服务的版本号
+            Config configTarget = new Config();
+            configTarget.setVersion(versionTarget);//设置为新建的版本号
+            configTarget.setName(config.getName());
+            configTarget.setStatus(config.getStatus());
+            configTarget.setType(config.getType());
+            configTarget.setValue(config.getValue());
+            configTarget.setEnvId(envIdTarget);
+            configTarget.setAppId(config.getAppId());
+            // 时间
+            configTarget.setUpdateTime(curTime);
+            configTarget.setCreateTime(curTime);
+            configDao.create(configTarget);
+        }
+        map.put("versionTarget", versionTarget);
+        map.put("versionSource", versionSource);
         map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopySource()));
         map.put("envIdTarget", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
         map.put("operation", Constants.ADD_ALL);
@@ -698,6 +698,12 @@ public class ConfigMgrImpl implements ConfigMgr {
         list.add(Integer.parseInt(pageCount));
 
         return configDao.find(list);
+    }
+
+    @Override
+    public List<String> getAllVersionByEnvId(Long envId) {
+        
+        return configDao.getAllVersionByEnvId(envId);
     }
 
 }

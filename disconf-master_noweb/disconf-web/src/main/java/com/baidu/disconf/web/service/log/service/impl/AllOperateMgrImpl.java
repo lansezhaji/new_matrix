@@ -94,9 +94,13 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
                 //active = "更新";
             }else if (operation.equals(Constants.ADD_ALL)) {//复制所有微服务的配置文件
                 long envIdTarget = (Long) (map.get("envIdTarget"));
+                String versionSource = (String) map.get("versionSource");
+                String versionTarget = (String) map.get("versionTarget");
                 Env envTarget = getEnv(envIdTarget);
-                description = updateTime + " ,用户" + visitor.getLoginUserName() + "复制了 "
-                              + env.getName() + " 环境到 " + envTarget.getName() + "环境";
+                //2017/02/10 17:01:57 ,用户Danlu_Admin从 webtest环境  0.0.1版本，复制到了apptest环境 0.0.2版本
+
+                description = updateTime + " ,用户" + visitor.getLoginUserName() + "从 "
+                              + env.getName() + " 环境的"+ versionSource +" 版本，复制到了 " + envTarget.getName() + "环境的 " + versionTarget + " 版本";
             }
 
             Log log = new Log();

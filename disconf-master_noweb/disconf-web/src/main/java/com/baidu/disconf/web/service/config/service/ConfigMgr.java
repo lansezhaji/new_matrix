@@ -100,4 +100,11 @@ public interface ConfigMgr {
 
     List<Config> getVersionListByAppEnv(Long appId, Long envId, String currentPage, String pageCount);
 
+    /**
+     * 返回 env环境下所有版本
+     * @param envIdLong
+     * @return
+     */
+    List<String> getAllVersionByEnvId(Long envIdLong);
+
 }

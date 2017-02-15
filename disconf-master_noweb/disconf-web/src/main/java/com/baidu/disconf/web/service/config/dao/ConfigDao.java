@@ -90,5 +90,12 @@ public interface ConfigDao extends BaseDao<Long, Config> {
     * @return
     */
     List<Config> find(List<Object> list);
+    
+    /**
+     * 
+     * @param envId
+     * @return
+     */
+    List<String> getAllVersionByEnvId(Long envId);
 
 }

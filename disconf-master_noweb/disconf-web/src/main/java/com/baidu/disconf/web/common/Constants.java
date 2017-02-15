@@ -9,6 +9,10 @@ public class Constants {
     public final static Integer STATUS_DELETE    = 0;
 
     /**
+     * 基础版本
+     */
+    public final static String  VERSION_ROOT     = "0.0.1";
+    /**
      * 发送redmine的地址<br>
      * 
      * 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baidu.disconf.core.common.constants.DisConfigTypeEnum;
 import com.baidu.disconf.core.common.json.ValueVo;
 import com.baidu.disconf.web.service.config.bo.Config;
+import com.baidu.disconf.web.service.config.form.ConfAllVersionForm;
 import com.baidu.disconf.web.service.config.form.ConfForm;
 import com.baidu.disconf.web.service.config.form.ConfigVersionForm;
 import com.baidu.disconf.web.service.config.service.ConfigFetchMgr;
@@ -95,6 +96,21 @@ public class ConfigFetcherController extends BaseController {
             configVersionForm.getCurrentPage(), configVersionForm.getPageCount());
        
         return buildListSuccess(versionList, versionList.size());
+    }
+    
+    /**
+     * 根据env获取version
+     * @param confForm
+     * @return
+     */
+    @RequestMapping(value = "/getAllVersion", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonObjectBase getAllVersion(@Valid ConfAllVersionForm confForm){
+        String envId = confForm.getEnvId();
+        Long envIdLong  = Long.parseLong(envId);
+        List<String> versionList = configMgr.getAllVersionByEnvId(envIdLong);
+        
+        return buildListSuccess(versionList,versionList.size());
     }
 
     /**

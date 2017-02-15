@@ -2,6 +2,7 @@ package com.baidu.disconf.web.service.config.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -206,6 +207,22 @@ public class ConfigDaoImpl extends AbstractDao<Long, Config> implements ConfigDa
         ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_SIZE, pageSize);
         ThreadContext.putContext(FrontEndInterfaceConstant.PAGE_NO, list.get(3));
         return findBySQL(sql, list);
+    }
+
+    @Override
+    public List<String> getAllVersionByEnvId(Long envId) {
+        String sql = "SELECT  * from config where env_id = ?";
+        List<Object> paramList = new ArrayList<Object>();
+        List<String> resultList = new ArrayList<String>();
+        paramList.add(envId);
+        List<Config> configAll = findBySQL(sql, paramList);
+        for (int i = 0; i < configAll.size(); i++) {
+            resultList.add(configAll.get(i).getVersion());
+        }
+        HashSet hashSet  =   new  HashSet(resultList); 
+        resultList.clear(); 
+        resultList.addAll(hashSet); 
+        return resultList;
     }
 
     
