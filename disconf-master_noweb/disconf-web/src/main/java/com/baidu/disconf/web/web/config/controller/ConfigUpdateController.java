@@ -24,6 +24,7 @@ import com.baidu.disconf.web.service.app.form.AppDeleteForm;
 import com.baidu.disconf.web.service.config.bo.Config;
 import com.baidu.disconf.web.service.config.form.ConfVersionForm;
 import com.baidu.disconf.web.service.config.form.ConfVersoinListForm;
+import com.baidu.disconf.web.service.config.form.MergeVersionForm;
 import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
@@ -286,6 +287,18 @@ public class ConfigUpdateController extends BaseController {
         List<Log> logs  = allOpertaerMgr.getLogHistory();
         
         return buildListSuccess(logs,logs.size());
+    }
+    
+    /**
+     * 合并当前版本到主版本
+     * @param mergeVersionForm
+     * @return
+     */
+    @RequestMapping(value = "/mergeToMasterVersion",method = RequestMethod.POST)
+    @ResponseBody
+    public JsonObjectBase mergeToMasterVersion(@Valid MergeVersionForm mergeVersionForm){
+        configMgr.mergeToMasterVersion(mergeVersionForm);
+        return buildSuccess("合并成功");
     }
 
 }

@@ -30,6 +30,7 @@ import com.baidu.disconf.web.service.config.bo.ConfigEntity;
 import com.baidu.disconf.web.service.config.dao.ConfigDao;
 import com.baidu.disconf.web.service.config.form.ConfListForm;
 import com.baidu.disconf.web.service.config.form.ConfNewItemForm;
+import com.baidu.disconf.web.service.config.form.MergeVersionForm;
 import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.service.ConfigHistoryMgr;
@@ -704,6 +705,49 @@ public class ConfigMgrImpl implements ConfigMgr {
     public List<String> getAllVersionByEnvId(Long envId) {
         
         return configDao.getAllVersionByEnvId(envId);
+    }
+
+    @Override
+    public void mergeToMasterVersion(MergeVersionForm mergeVersionForm) {
+        String curTime = DateUtils.format(new Date(), DataFormatConstants.COMMON_TIME_FORMAT);
+        Long envId = Long.parseLong(mergeVersionForm.getEnv());
+        Long appId = Long.parseLong(mergeVersionForm.getApp());
+        String version = mergeVersionForm.getVersion();
+        String versionMaster = Constants.VERSION_ROOT;
+        
+        //将master的配置文件状态改为删除（实质还是保存在数据库）
+        List<Config> configMasterList = new ArrayList<Config>();
+        configMasterList = configDao.getByParameter(appId, envId, versionMaster);
+        for (Config config : configMasterList) {
+            configDao.deleteItem(config.getId());
+        }
+        
+        //将当前版本的配置文件复制到master的版本上
+        List<Config> configList = new ArrayList<Config>();
+        configList = configDao.getByParameter(appId, envId, version);
+        for (Config config : configList) {
+            Config configNew = new Config();
+            configNew.setVersion(config.getVersion());//设置为新建的版本号
+            configNew.setName(config.getName());
+            configNew.setStatus(config.getStatus());
+            configNew.setType(config.getType());
+            configNew.setValue(config.getValue());
+            configNew.setEnvId(config.getEnvId());
+            configNew.setAppId(config.getAppId());
+            // 时间
+            configNew.setUpdateTime(curTime);
+            configNew.setCreateTime(curTime);
+            configDao.create(configNew);
+        }
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("envId", envId);
+        map.put("appId", appId);
+        map.put("version", version);
+        map.put("versionMaster", versionMaster);
+        map.put("operation", Constants.MERGE);
+
+        allOpertaerMgr.updateLog(map);
     }
 
 }

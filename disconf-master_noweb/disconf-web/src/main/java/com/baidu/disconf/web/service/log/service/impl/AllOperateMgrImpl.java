@@ -101,6 +101,12 @@ public class AllOperateMgrImpl implements AllOpertaerMgr {
 
                 description = updateTime + " ,用户" + visitor.getLoginUserName() + "从 "
                               + env.getName() + " 环境的"+ versionSource +" 版本，复制到了 " + envTarget.getName() + "环境的 " + versionTarget + " 版本";
+            }else if(operation.equals(Constants.MERGE)){
+                long versionMaster = (Long) (map.get("versionMaster"));
+                
+                description = updateTime + " ,用户" + visitor.getLoginUserName() + "合并了"
+                                + env.getName() + " 环境下的" + app.getName() + "微服务的"
+                                + version + " 版本到 " + versionMaster + " 主版本";
             }
 
             Log log = new Log();

@@ -43,4 +43,9 @@ public class Constants {
      * 操作日志  新增某环境所有的微服务
      */
     public final static String  ADD_ALL          = "4";
+
+    /**
+     * 操作日志  合并版本配置文件
+     */
+    public final static String  MERGE            = "5";
 }

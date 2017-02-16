@@ -8,6 +8,7 @@ import com.baidu.disconf.core.common.constants.DisConfigTypeEnum;
 import com.baidu.disconf.web.service.config.bo.Config;
 import com.baidu.disconf.web.service.config.form.ConfListForm;
 import com.baidu.disconf.web.service.config.form.ConfNewItemForm;
+import com.baidu.disconf.web.service.config.form.MergeVersionForm;
 import com.baidu.disconf.web.service.config.form.NameAllCopyForm;
 import com.baidu.disconf.web.service.config.form.NameCopyForm;
 import com.baidu.disconf.web.service.config.vo.ConfListVo;
@@ -106,5 +107,11 @@ public interface ConfigMgr {
      * @return
      */
     List<String> getAllVersionByEnvId(Long envIdLong);
+
+    /**
+     * 合并当前版本到主版本
+     * @param mergeVersionForm
+     */
+    void mergeToMasterVersion(MergeVersionForm mergeVersionForm);
 
 }
