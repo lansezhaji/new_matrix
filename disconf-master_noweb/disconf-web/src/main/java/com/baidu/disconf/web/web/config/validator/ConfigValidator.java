@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baidu.disconf.core.common.constants.DisConfigTypeEnum;
+import com.baidu.disconf.web.common.Constants;
 import com.baidu.disconf.web.service.app.bo.App;
 import com.baidu.disconf.web.service.app.service.AppMgr;
 import com.baidu.disconf.web.service.config.bo.Config;
@@ -14,8 +15,11 @@ import com.baidu.disconf.web.service.config.service.ConfigFetchMgr;
 import com.baidu.disconf.web.service.config.service.ConfigMgr;
 import com.baidu.disconf.web.service.env.bo.Env;
 import com.baidu.disconf.web.service.env.service.EnvMgr;
+import com.baidu.disconf.web.service.role.constant.RoleConstant;
+import com.baidu.disconf.web.service.user.dto.Visitor;
 import com.baidu.disconf.web.service.user.service.AuthMgr;
 import com.baidu.dsp.common.exception.FieldException;
+import com.baidu.ub.common.commons.ThreadContext;
 
 /**
  * @author liaoqiqi
@@ -204,4 +208,20 @@ public class ConfigValidator {
         validateAppAuth(config.getAppId());
     }
 
+    /**
+     * 主要是为了进行权限验证，只有管理员才有权利操作基础版本
+     * @param configId
+     * @return
+     */
+    public boolean validateRole(long configId) {
+        Visitor visitor = ThreadContext.getSessionVisitor();
+        String RoleId = String.valueOf(visitor.getRoleId());
+        
+        Config config = configMgr.getConfigById(configId);
+        if (!RoleId.equals(RoleConstant.ROLE_ADMIN)
+            && config.getVersion().equals(Constants.VERSION_ROOT)) {
+            return true;
+        }
+        return false;
+    }
 }

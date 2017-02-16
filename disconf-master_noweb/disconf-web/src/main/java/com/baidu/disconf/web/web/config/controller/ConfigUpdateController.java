@@ -63,22 +63,7 @@ public class ConfigUpdateController extends BaseController {
     @Autowired
     private FileUploadValidator fileUploadValidator;
 
-    /**
-     * 主要是为了进行权限验证，只有管理员才有权利操作基础版本
-     * @param configId
-     * @return
-     */
-    public boolean validateRole(long configId) {
-        Visitor visitor = ThreadContext.getSessionVisitor();
-        String RoleId = String.valueOf(visitor.getRoleId());
-        
-        Config config = configMgr.getConfigById(configId);
-        if (!RoleId.equals(RoleConstant.ROLE_ADMIN)
-            && config.getVersion.equals(Constants.VERSION_ROOT)) {
-            return true;
-        }
-        return false;
-    }
+
     
     /**
      * 配置项的更新
@@ -91,7 +76,7 @@ public class ConfigUpdateController extends BaseController {
     @RequestMapping(value = "/item/{configId}", method = RequestMethod.PUT)
     @ResponseBody
     public JsonObjectBase updateItem(@PathVariable long configId, String value) {
-        if(validateRole(configId)){
+        if(configValidator.validateRole(configId)){
             return buildSuccess("该用户操作权限不够！");
         }
         // 业务校验
@@ -124,7 +109,7 @@ public class ConfigUpdateController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/file/{configId}", method = RequestMethod.POST)
     public JsonObjectBase updateFile(@PathVariable long configId, @RequestParam("myfilerar") MultipartFile file) {
-        if(validateRole(configId)){
+        if(configValidator.validateRole(configId)){
             return buildSuccess("该用户操作权限不够！");
         }
         //
@@ -174,7 +159,7 @@ public class ConfigUpdateController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/filetext/{configId}", method = RequestMethod.PUT)
     public JsonObjectBase updateFileWithText(@PathVariable long configId, @NotNull String fileContent) {
-        if(validateRole(configId)){
+        if(configValidator.validateRole(configId)){
             return buildSuccess("该用户操作权限不够！");
         }
         //
@@ -210,7 +195,7 @@ public class ConfigUpdateController extends BaseController {
     @RequestMapping(value = "/{configId}", method = RequestMethod.DELETE)
     @ResponseBody
     public JsonObjectBase delete(@PathVariable long configId) {
-        if(validateRole(configId)){
+        if(configValidator.validateRole(configId)){
             return buildSuccess("该用户操作权限不够！");
         }
         configValidator.validateDelete(configId);
