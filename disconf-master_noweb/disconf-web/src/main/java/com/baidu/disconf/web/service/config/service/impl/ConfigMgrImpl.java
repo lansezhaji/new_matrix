@@ -671,7 +671,7 @@ public class ConfigMgrImpl implements ConfigMgr {
         map.put("envId", Long.parseLong(nameAllCopyForm.getEnvIdCopySource()));
         map.put("envIdTarget", Long.parseLong(nameAllCopyForm.getEnvIdCopyTarget()));
         map.put("operation", Constants.ADD_ALL);
-
+        map.put("appId", Long.parseLong("0"));
         allOpertaerMgr.updateLog(map);
 
     }

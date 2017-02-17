@@ -224,4 +224,20 @@ public class ConfigValidator {
         }
         return false;
     }
+    
+    /**
+     * 主要是为了进行权限验证，只有管理员才有权利操作基础版本
+     * @param version
+     * @return
+     */
+    public boolean validateRole(String version) {
+        Visitor visitor = ThreadContext.getSessionVisitor();
+        String RoleId = String.valueOf(visitor.getRoleId());
+        
+        if (!RoleId.equals(RoleConstant.ROLE_ADMIN)
+            && version.equals(Constants.VERSION_ROOT)) {
+            return true;
+        }
+        return false;
+    }
 }

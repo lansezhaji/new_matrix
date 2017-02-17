@@ -18,7 +18,7 @@ public class Constants {
      * 
      * add by GaoJean  on 10/10/2016
      */
-    public final static String  REDMINE_URL      = "http://182.92.230.201:3000/issues/6369.json";
+    public final static String  REDMINE_URL      = "http://redmine.idanlu.com/issues/6369.json";
     /**
      * 登录redmine的用户key<br>
      * 
